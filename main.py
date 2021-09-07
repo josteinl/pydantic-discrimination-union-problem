@@ -36,7 +36,7 @@ class Spoon(CutleryBase):
 
 Cutlery = Annotated[
     Union[Knife, Fork, Spoon],
-    Field(discriminator="cutlery_type_id"),
+    Field(..., discriminator='cutlery_type_id'),
 ]
 
 app = FastAPI()
@@ -47,11 +47,10 @@ app = FastAPI()
          # response_model=List[Union[Knife, Fork, Spoon]],
          )
 async def get_cutlery():
-
     return [Knife(name='The special knife'),
             Fork(name='Two theeth fork', number_of_teeth=2),
             Fork(name='Three teeth', number_of_teeth=3),
             Spoon(name='Tea spoon', volume=3.2)]
 
 
-uvicorn.run(app, host="127.0.0.1", port=80)
+uvicorn.run(app, host='127.0.0.1', port=80)
