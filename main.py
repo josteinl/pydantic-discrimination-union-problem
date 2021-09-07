@@ -7,7 +7,7 @@ from pydantic import Field, BaseModel
 import uvicorn
 
 
-class CutleryTypeEnum(enum.Enum):
+class CutleryTypeEnum(enum.IntEnum):
     KNIFE = 1
     FORK = 2
     SPOON = 3
