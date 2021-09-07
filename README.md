@@ -22,3 +22,35 @@ With activated virtual environment
 
 Access the openapi endpoint documentation [http://localhost/docs](http://localhost/docs)
 
+
+## The error output
+
+I get the following error output during startup:
+
+```
+C:\dev\pydantic-discrimination-union-problem\.venv\Scripts\python.exe C:/dev/pydantic-discrimination-union-problem/main.py
+Traceback (most recent call last):
+  File "C:/dev/pydantic-discrimination-union-problem/main.py", line 47, in <module>
+    async def get_cutlery():
+  File "C:\dev\pydantic-discrimination-union-problem\.venv\lib\site-packages\fastapi\routing.py", line 582, in decorator
+    self.add_api_route(
+  File "C:\dev\pydantic-discrimination-union-problem\.venv\lib\site-packages\fastapi\routing.py", line 525, in add_api_route
+    route = route_class(
+  File "C:\dev\pydantic-discrimination-union-problem\.venv\lib\site-packages\fastapi\routing.py", line 351, in __init__
+    self.response_field = create_response_field(
+  File "C:\dev\pydantic-discrimination-union-problem\.venv\lib\site-packages\fastapi\utils.py", line 65, in create_response_field
+    return response_field(field_info=field_info)
+  File "C:\dev\pydantic-discrimination-union-problem\.venv\lib\site-packages\pydantic\fields.py", line 389, in __init__
+    self.prepare()
+  File "C:\dev\pydantic-discrimination-union-problem\.venv\lib\site-packages\pydantic\fields.py", line 508, in prepare
+    self._type_analysis()
+  File "C:\dev\pydantic-discrimination-union-problem\.venv\lib\site-packages\pydantic\fields.py", line 695, in _type_analysis
+    self.sub_fields = [self._create_sub_type(self.type_, '_' + self.name)]
+  File "C:\dev\pydantic-discrimination-union-problem\.venv\lib\site-packages\pydantic\fields.py", line 735, in _create_sub_type
+    field_info, _ = self._get_field_info(name, type_, None, self.model_config)
+  File "C:\dev\pydantic-discrimination-union-problem\.venv\lib\site-packages\pydantic\fields.py", line 425, in _get_field_info
+    raise ValueError(f'`Field` default cannot be set in `Annotated` for {field_name!r}')
+ValueError: `Field` default cannot be set in `Annotated` for '_Response_get_cutlery_cutlery_get'
+
+Process finished with exit code 1
+```
