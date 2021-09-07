@@ -1,0 +1,5 @@
+fastapi
+# The last OK commit for this example project:
+# https://github.com/PrettyWood/pydantic/commit/45db4ad3aa558879824a91dd3b011d0449eb2977
+git+git://github.com/PrettyWood/pydantic.git@45db4ad3aa558879824a91dd3b011d0449eb2977
+uvicorn>=0.13.3

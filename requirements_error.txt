@@ -1,0 +1,7 @@
+fastapi
+# Latest in branch:
+# git+git://github.com/PrettyWood/pydantic.git@f/discriminated-union#egg=pydantic
+# The problem commit:
+# https://github.com/PrettyWood/pydantic/commit/417601ae551b92ad875b84dbad93a51eaa40f66c
+git+git://github.com/PrettyWood/pydantic.git@417601ae551b92ad875b84dbad93a51eaa40f66c
+uvicorn>=0.13.3
