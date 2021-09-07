@@ -16,21 +16,21 @@ class CutleryTypeEnum(enum.IntEnum):
 class CutleryBase(BaseModel):
     name: str
 
-    # class Config:
-    #     orm_mode = True
+    class Config:
+        orm_mode = True
 
 
 class Knife(CutleryBase):
-    cutlery_type_id: Literal[CutleryTypeEnum.KNIFE]
+    cutlery_type_id: Literal[CutleryTypeEnum.KNIFE] = CutleryTypeEnum.KNIFE
 
 
 class Fork(CutleryBase):
-    cutlery_type_id: Literal[CutleryTypeEnum.FORK]
+    cutlery_type_id: Literal[CutleryTypeEnum.FORK] = CutleryTypeEnum.FORK
     number_of_teeth: int = None
 
 
 class Spoon(CutleryBase):
-    cutlery_type_id: Literal[CutleryTypeEnum.SPOON]
+    cutlery_type_id: Literal[CutleryTypeEnum.SPOON] = CutleryTypeEnum.SPOON
     volume: float = None
 
 
@@ -43,11 +43,15 @@ app = FastAPI()
 
 
 @app.get("/cutlery",
-         response_model=List[Cutlery])
+         response_model=List[Cutlery],
+         # response_model=List[Union[Knife, Fork, Spoon]],
+         )
 async def get_cutlery():
-    return [{'cutlery_type_id': CutleryTypeEnum.KNIFE, 'name': 'My sharp knife'},
-            {'cutlery_type_id': CutleryTypeEnum.FORK, 'name': 'The three teeth fork'},
-            {'cutlery_type_id': CutleryTypeEnum.SPOON, 'name': 'Tea spoon'}]
+
+    return [Knife(name='The special knife'),
+            Fork(name='Two theeth fork', number_of_teeth=2),
+            Fork(name='Three teeth', number_of_teeth=3),
+            Spoon(name='Tea spoon', volume=3.2)]
 
 
 uvicorn.run(app, host="127.0.0.1", port=80)
