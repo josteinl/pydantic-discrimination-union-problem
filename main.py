@@ -36,7 +36,7 @@ class Spoon(CutleryBase):
 
 Cutlery = Annotated[
     Union[Knife, Fork, Spoon],
-    Field(..., discriminator='cutlery_type_id'),
+    Field(discriminator='cutlery_type_id'),
 ]
 
 app = FastAPI()
