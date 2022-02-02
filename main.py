@@ -16,9 +16,6 @@ class CutleryTypeEnum(enum.IntEnum):
 class CutleryBase(BaseModel):
     name: str
 
-    # class Config:
-    #     orm_mode = True
-
 
 class Knife(CutleryBase):
     cutlery_type_id: Literal[CutleryTypeEnum.KNIFE]
@@ -48,6 +45,44 @@ async def get_cutlery():
     return [{'cutlery_type_id': CutleryTypeEnum.KNIFE, 'name': 'My sharp knife'},
             {'cutlery_type_id': CutleryTypeEnum.FORK, 'name': 'The three teeth fork'},
             {'cutlery_type_id': CutleryTypeEnum.SPOON, 'name': 'Tea spoon'}]
+
+#
+# Enable second usage of Cutlery result in traceback on startup
+#
+
+# @app.get("/cutlery2",
+#          response_model=List[Cutlery])
+# async def get_cutlery():
+#     return [{'cutlery_type_id': CutleryTypeEnum.KNIFE, 'name': 'My sharp knife'},
+#             {'cutlery_type_id': CutleryTypeEnum.KNIFE, 'name': 'My knife is sharp'},
+#             {'cutlery_type_id': CutleryTypeEnum.FORK, 'name': 'The three teeth fork'},
+#             {'cutlery_type_id': CutleryTypeEnum.SPOON, 'name': 'Tea spoon'}]
+
+#
+# second try with inline types
+#
+
+# @app.get("/cutlery",
+#          response_model=List[Annotated[
+#              Union[Knife, Fork, Spoon],
+#              Field(discriminator='cutlery_type_id'),
+#          ]])
+# async def get_cutlery():
+#     return [{'cutlery_type_id': CutleryTypeEnum.KNIFE, 'name': 'My sharp knife'},
+#             {'cutlery_type_id': CutleryTypeEnum.FORK, 'name': 'The three teeth fork'},
+#             {'cutlery_type_id': CutleryTypeEnum.SPOON, 'name': 'Tea spoon'}]
+#
+#
+# @app.get("/cutlery2",
+#          response_model=List[Annotated[
+#              Union[Knife, Fork, Spoon],
+#              Field(discriminator='cutlery_type_id'),
+#          ]])
+# async def get_cutlery():
+#     return [{'cutlery_type_id': CutleryTypeEnum.KNIFE, 'name': 'My sharp knife'},
+#             {'cutlery_type_id': CutleryTypeEnum.KNIFE, 'name': 'My knife is sharp'},
+#             {'cutlery_type_id': CutleryTypeEnum.FORK, 'name': 'The three teeth fork'},
+#             {'cutlery_type_id': CutleryTypeEnum.SPOON, 'name': 'Tea spoon'}]
 
 
 uvicorn.run(app, host='127.0.0.1', port=80)

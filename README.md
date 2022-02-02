@@ -40,10 +40,12 @@ Access the openapi endpoint documentation [http://localhost/docs](http://localho
 
 If I specify the Field() with ```...```:
 
-    Cutlery = Annotated[
-        Union[Knife, Fork, Spoon],
-        Field(..., discriminator='cutlery_type_id'),
-    ]
+```python
+Cutlery = Annotated[
+    Union[Knife, Fork, Spoon],
+    Field(..., discriminator='cutlery_type_id'),
+]
+```
 
 I get the following error output during startup:
 
@@ -70,12 +72,60 @@ ValueError: `Field` default cannot be set in `Annotated` for '_Response_get_cutl
 
 Removing the ```...``` from Field():
 
-    Cutlery = Annotated[
-        Union[Knife, Fork, Spoon],
-        Field(discriminator='cutlery_type_id'),
-    ]
+```python
+Cutlery = Annotated[
+    Union[Knife, Fork, Spoon],
+    Field(discriminator='cutlery_type_id'),
+]
+```
 
-the server starts, and everything seems to work OK
+the server starts, and everything seems to work OK.
+
+## Yet another problem
+
+[Pydantic issue 3714](https://github.com/samuelcolvin/pydantic/issues/3714)
+
+If I enable the endpoint `/cutlery2` I get the following traceback on start-up:
+
+```
+python main.py   
+Traceback (most recent call last):
+  File "C:\dev\pydantic-discrimination-union-problem\main.py", line 55, in <module>
+    async def get_cutlery():
+  File "C:\Users\jol\venv\pydantic-discrimination-union-problem\lib\site-packages\fastapi\routing.py", line 582, in decorator
+    self.add_api_route(
+  File "C:\Users\jol\venv\pydantic-discrimination-union-problem\lib\site-packages\fastapi\routing.py", line 525, in add_api_route
+    route = route_class(
+  File "C:\Users\jol\venv\pydantic-discrimination-union-problem\lib\site-packages\fastapi\routing.py", line 351, in __init__
+    self.response_field = create_response_field(
+  File "C:\Users\jol\venv\pydantic-discrimination-union-problem\lib\site-packages\fastapi\utils.py", line 65, in create_response_field
+    return response_field(field_info=field_info)
+  File "pydantic\fields.py", line 419, in pydantic.fields.ModelField.__init__
+  File "pydantic\fields.py", line 534, in pydantic.fields.ModelField.prepare
+  File "pydantic\fields.py", line 728, in pydantic.fields.ModelField._type_analysis
+  File "pydantic\fields.py", line 776, in pydantic.fields.ModelField._create_sub_type
+  File "pydantic\fields.py", line 451, in pydantic.fields.ModelField._get_field_info
+ValueError: `Field` default cannot be set in `Annotated` for '_Response_get_cutlery_cutlery2_get'
+```
+
+Another thing is that if I inline the Annotated type like this: 
+
+```python
+@app.get("/cutlery",
+         response_model=List[Annotated[
+             Union[Knife, Fork, Spoon],
+             Field(discriminator='cutlery_type_id'),
+         ]])
+async def get_cutlery():
+    return [{'cutlery_type_id': CutleryTypeEnum.KNIFE, 'name': 'My sharp knife'},
+            {'cutlery_type_id': CutleryTypeEnum.FORK, 'name': 'The three teeth fork'},
+            {'cutlery_type_id': CutleryTypeEnum.SPOON, 'name': 'Tea spoon'}]
+```
+
+It works as expected again with both endpoints enabled.
+
+# Old attempts
+The following comments are about old trials with older versions.
 
 Now (2022-02-02) using pydantic version 1.9.0 I do not get the errors I encountered before.
 
