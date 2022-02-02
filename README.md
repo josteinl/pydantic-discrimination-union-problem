@@ -1,6 +1,10 @@
 # pydantic-discrimination-union-problem
 Example code for testing Fastapi, Pydantic and discrimination union combination
 
+## Different trials in other branches
+
+Successful trial (2022-02-02) with the Pydantic release version 1.9.0 in branch [pydantic_1.9.0_trial](https://github.com/josteinl/pydantic-discrimination-union-problem/tree/pydantic_1.9.0_trial)
+
 ## Installation
 Using Python version 3.8.10. Create a virtual environment and activate it.
 
