@@ -122,7 +122,20 @@ async def get_cutlery():
             {'cutlery_type_id': CutleryTypeEnum.SPOON, 'name': 'Tea spoon'}]
 ```
 
-It works as expected again with both endpoints enabled.
+It works as expected again with both endpoints enabled. But in my big, real world project I still get the traceback as above.
+
+If I use
+
+```python
+class Cutlery(BaseModel):
+    __root__: Annotated[
+        Union[Knife, Fork, Spoon],
+        Field(discriminator='cutlery_type_id'),
+    ]
+```
+
+it seems to work in both this project and in my real world bigger project (for now).
+
 
 # Old attempts
 The following comments are about old trials with older versions.
