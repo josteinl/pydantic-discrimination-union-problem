@@ -61,7 +61,7 @@ async def get_cutlery():
 
 @app.get("/cutlery2",
          response_model=List[Cutlery])
-async def get_cutlery():
+async def get_cutlery2():
     return [{'cutlery_type_id': CutleryTypeEnum.KNIFE, 'name': 'My sharp knife'},
             {'cutlery_type_id': CutleryTypeEnum.KNIFE, 'name': 'My knife is sharp'},
             {'cutlery_type_id': CutleryTypeEnum.FORK, 'name': 'The three teeth fork'},
@@ -72,23 +72,23 @@ async def get_cutlery():
 # second try with inline types
 #
 
-# @app.get("/cutlery",
+# @app.get("/cutlery3",
 #          response_model=List[Annotated[
 #              Union[Knife, Fork, Spoon],
 #              Field(discriminator='cutlery_type_id'),
 #          ]])
-# async def get_cutlery():
+# async def get_cutlery3():
 #     return [{'cutlery_type_id': CutleryTypeEnum.KNIFE, 'name': 'My sharp knife'},
 #             {'cutlery_type_id': CutleryTypeEnum.FORK, 'name': 'The three teeth fork'},
 #             {'cutlery_type_id': CutleryTypeEnum.SPOON, 'name': 'Tea spoon'}]
 #
 #
-# @app.get("/cutlery2",
+# @app.get("/cutlery4",
 #          response_model=List[Annotated[
 #              Union[Knife, Fork, Spoon],
 #              Field(discriminator='cutlery_type_id'),
 #          ]])
-# async def get_cutlery():
+# async def get_cutlery4():
 #     return [{'cutlery_type_id': CutleryTypeEnum.KNIFE, 'name': 'My sharp knife'},
 #             {'cutlery_type_id': CutleryTypeEnum.KNIFE, 'name': 'My knife is sharp'},
 #             {'cutlery_type_id': CutleryTypeEnum.FORK, 'name': 'The three teeth fork'},
